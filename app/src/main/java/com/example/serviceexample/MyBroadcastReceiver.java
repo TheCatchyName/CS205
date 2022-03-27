@@ -24,6 +24,16 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals("DOWNLOAD_FAILED")) {
+            handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
+                result.setText("Try another Ticker");
+            }
+        });
+
+        }
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             handler.post(new Runnable() {
                 @Override

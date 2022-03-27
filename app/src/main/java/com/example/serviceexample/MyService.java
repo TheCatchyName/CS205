@@ -35,7 +35,7 @@ public class MyService extends Service{
     private static final int CONNECTION_TIMEOUT = 15000;
 
     private String ticker = "MSFT";
-    private String token =""; // put your own token
+    private String token ="c8vd5faad3iaocnjvp60"; // put your own token
 
     private final class ServiceHandler extends Handler{
         public ServiceHandler(Looper looper){
@@ -91,36 +91,52 @@ public class MyService extends Service{
             JSONObject jsonObject = null;
             JSONArray jsonArrayClose = null;
             JSONArray jsonArrayVolume = null;
+            String status = null;
 
             try {
                 jsonObject = new JSONObject(result);
+                status = jsonObject.getString("s");
                 jsonArrayClose = jsonObject.getJSONArray("c");
                 jsonArrayVolume = jsonObject.getJSONArray("v");
+
             } catch (JSONException e) {e.printStackTrace();}
 
+            if (status.equals("ok")) {
+                Log.v("data", "status: " + status);
+                Log.v("close", String.valueOf(jsonArrayClose.length()));
+                Log.v("vol", String.valueOf(jsonArrayVolume.length()));
 
-            Log.v("close", String.valueOf(jsonArrayClose.length()));
-            Log.v("vol", String.valueOf(jsonArrayVolume.length()));
+                try {
+                    for (int i = 0; i < jsonArrayClose.length(); i++) {
+                        double close = jsonArrayClose.getDouble(i);
+                        double volume = jsonArrayVolume.getDouble(i);
+                        Log.v("data", i + ":, c: " + close + " v: " + volume);
 
-            try {
-                for (int i = 0; i < jsonArrayClose.length(); i++) {
-                    double close = jsonArrayClose.getDouble(i);
-                    double volume = jsonArrayVolume.getDouble(i);
-                    Log.v("data", i + ":, c: " + close + " v: " + volume);
+                        ContentValues values = new ContentValues();
+                        values.put(HistoricalDataProvider.CLOSE, close);
+                        values.put(HistoricalDataProvider.VOLUME, volume);
+                        getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
 
-                    ContentValues values = new ContentValues();
-                    values.put(HistoricalDataProvider.CLOSE, close);
-                    values.put(HistoricalDataProvider.VOLUME, volume);
-                    getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
-                }
-            } catch (JSONException e) {e.printStackTrace();}
+                // broadcast message that download is complete
 
-            // broadcast message that download is complete
+                Intent intent = new Intent("DOWNLOAD_COMPLETE");
+                sendBroadcast(intent);
 
-            Intent intent = new Intent("DOWNLOAD_COMPLETE");
-            sendBroadcast(intent);
+                stopSelf(msg.arg1);
 
-            stopSelf(msg.arg1);
+            } else {
+                Log.v("data", "status: " + status);
+                //if there is no such ticker/no data found, notify user with a toast and gracefully cancel
+                //i.e. if download failed for any reason
+                Intent intent = new Intent("DOWNLOAD_FAILED");
+                sendBroadcast(intent);
+
+                stopSelf(msg.arg1);
+
+            }
+
 
         }
     }

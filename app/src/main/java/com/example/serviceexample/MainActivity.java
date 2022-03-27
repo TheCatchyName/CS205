@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity{
                 result.setText("Waiting for data.. ");
                 myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
                 registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
+                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
             }
         });
     }

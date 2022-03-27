@@ -33,6 +33,7 @@
             tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="DOWNLOAD_COMPLETE"/>
+                <action android:name="DOWNLOAD_FAILED"/>
             </intent-filter>
         </receiver>
 
