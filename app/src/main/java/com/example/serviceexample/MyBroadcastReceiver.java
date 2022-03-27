@@ -28,8 +28,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
             @Override
             public void run() {
-                TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
-                result.setText("Try another Ticker");
+//                TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
+//                result.setText("Try another Ticker");
             }
         });
 
@@ -39,8 +39,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 @Override
                 public void run() {
                     Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
-                    TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
-                    result.setText("Calculating...");
+//                    TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
+//                    result.setText("Calculating...");
                     double sum_price = 0.0;
                     double sum_volume = 0.0;
                     Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, null);
@@ -60,11 +60,11 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         }
                     }
                     else {
-                        result.setText("No Records Found");
+//                        result.setText("No Records Found");
                     }
 
                     double vwap = sum_price / sum_volume;
-                    result.setText(String.format("%.2f", vwap));
+//                    result.setText(String.format("%.2f", vwap));
 
                 }
             });

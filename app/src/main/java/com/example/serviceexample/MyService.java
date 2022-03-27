@@ -48,7 +48,7 @@ public class MyService extends Service{
             // url to get historical data
 
             String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ticker
-                    +"&resolution=1&from=1631022248&to=1631627048&token="+token;
+                    +"&resolution=1&from=1625097601&to=1640995199&token="+token;
             String result;
             String inputLine;
 
@@ -151,7 +151,12 @@ public class MyService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        ticker = intent.getStringExtra("ticker");
+        // to check if a ticker was entered by user
+        for (int i = 1; i <= 5; i++) {
+            Log.v("ticker " + i + " exists: ", String.valueOf(intent.hasExtra("ticker" + i)));
+            Log.v("ticker " + i + " value: ", String.valueOf(intent.getStringExtra("ticker" + i)));
+        }
+        //ticker = intent.getStringExtra("ticker");
         Toast.makeText(this, "download starting", Toast.LENGTH_SHORT).show();
 
         Message msg = serviceHandler.obtainMessage();
