@@ -151,10 +151,10 @@ public class MyService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        // to check if a ticker was entered by user
+        // to check which tickers have values entered by user
         for (int i = 1; i <= 5; i++) {
-            Log.v("ticker " + i + " exists: ", String.valueOf(intent.hasExtra("ticker" + i)));
-            Log.v("ticker " + i + " value: ", String.valueOf(intent.getStringExtra("ticker" + i)));
+            Log.v("ticker" + i + " exists: ", String.valueOf(intent.hasExtra("ticker" + i)));
+            Log.v("ticker" + i + " value: ", String.valueOf(intent.getStringExtra("ticker" + i)));
         }
         //ticker = intent.getStringExtra("ticker");
         Toast.makeText(this, "download starting", Toast.LENGTH_SHORT).show();
