@@ -25,7 +25,7 @@ public class HistoricalDataProvider extends ContentProvider {
 
     static final String ID = "id";
     static final String CLOSE = "close";
-    static final String OPEN = "o";
+    static final String OPEN = "open";
     static final String TICKER_NAME = "ticker_name";
     static final String VOLUME = "volume";
 
@@ -50,8 +50,8 @@ public class HistoricalDataProvider extends ContentProvider {
     static final String CREATE_DB_TABLE =
             " CREATE TABLE " + TABLE_NAME +
                     " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    " close DECIMAL(5,3) NOT NULL, " +
-                    " o DECIMAL(5,3) NOT NULL, " +
+                    " close DECIMAL(10,3) NOT NULL, " +
+                    " open DECIMAL(10,3) NOT NULL, " +
                     " ticker_name VARCHAR(10) NOT NULL, " +
                     " volume DECIMAL(10,1) NOT NULL);";
 

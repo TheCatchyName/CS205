@@ -51,7 +51,7 @@ public class MyService extends Service{
                 @Override
                 public void run() {
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ Thread.currentThread().getName()
-                            +"&resolution=1&from=1625097601&to=1640995199&token="+token;
+                            +"&resolution=1&from=1625097601&to=1640995199&token=" + token;
                     String result;
                     String inputLine;
 
@@ -116,18 +116,20 @@ public class MyService extends Service{
                             for (int i = 0; i < jsonArrayClose.length(); i++) {
                                 double close = jsonArrayClose.getDouble(i);
                                 double volume = jsonArrayVolume.getDouble(i);
-                                double open_p = jsonArrayOpen.getDouble(i);
+                                double open = jsonArrayOpen.getDouble(i);
 
-                                Log.v("data", i + "ticker name: " + Thread.currentThread().getName() + ":, c: " + close + "o: " + open_p + " v: " + volume);
+                                Log.v("data", i + "ticker name: " + Thread.currentThread().getName() + ":, c: " + close + "o: " + open + " v: " + volume);
 
                                 ContentValues values = new ContentValues();
                                 values.put(HistoricalDataProvider.CLOSE, close);
-                                values.put(HistoricalDataProvider.OPEN, open_p);
+                                values.put(HistoricalDataProvider.OPEN, open);
                                 values.put(HistoricalDataProvider.TICKER_NAME, Thread.currentThread().getName());
                                 values.put(HistoricalDataProvider.VOLUME, volume);
                                 getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
                             }
-                        } catch (JSONException e) {e.printStackTrace();}
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         // broadcast message that download is complete
 
