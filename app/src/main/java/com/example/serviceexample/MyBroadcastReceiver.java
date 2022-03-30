@@ -24,6 +24,28 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        if (intent.getAction().equals("CHECK_TICKER")) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (intent.hasExtra("ticker")) {
+                        String tickerName = intent.getStringExtra("ticker");
+                        Log.v("data", "broadcast receiver successfully received check_ticker: " + tickerName);
+                        Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
+                        Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
+                        if (cursor.moveToFirst()) {
+                            Log.v("data", cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")) + " success!!!");
+                            while (!cursor.isAfterLast()) {
+                                Log.v("data", "name: " + cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")));
+                                cursor.moveToNext();
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         if (intent.getAction().equals("DOWNLOAD_FAILED")) {
             handler.post(new Runnable() {
             @Override
@@ -32,8 +54,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 //                result.setText("Try another Ticker");
             }
         });
-
         }
+
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             handler.post(new Runnable() {
                 @Override
