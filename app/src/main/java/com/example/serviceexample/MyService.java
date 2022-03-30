@@ -134,6 +134,7 @@ public class MyService extends Service{
                         // broadcast message that download is complete
 
                         Intent intent = new Intent("DOWNLOAD_COMPLETE");
+                        intent.putExtra("ticker", Thread.currentThread().getName());
                         sendBroadcast(intent);
 
                         stopSelf(msg.arg1);
@@ -143,6 +144,7 @@ public class MyService extends Service{
                         //if there is no such ticker/no data found, notify user with a toast and gracefully cancel
                         //i.e. if download failed for any reason
                         Intent intent = new Intent("DOWNLOAD_FAILED");
+                        intent.putExtra("ticker", Thread.currentThread().getName());
                         sendBroadcast(intent);
 
                         stopSelf(msg.arg1);

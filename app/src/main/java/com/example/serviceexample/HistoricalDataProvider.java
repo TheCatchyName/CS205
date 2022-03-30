@@ -82,7 +82,7 @@ public class HistoricalDataProvider extends ContentProvider {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         // create db if not exists
         db = dbHelper.getWritableDatabase();
-        return (db == null)? false:true;
+        return db != null;
 
     }
 
@@ -102,7 +102,7 @@ public class HistoricalDataProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(TABLE_NAME);

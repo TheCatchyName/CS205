@@ -35,6 +35,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
         }
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
+            String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
+            if (intentExtra.equals("")) {
+                try {
+                    throw new Exception("Missing intent value");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -43,7 +52,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 //                    result.setText("Calculating...");
                     double sum_price = 0.0;
                     double sum_volume = 0.0;
-                    Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, null);
+                    Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name = " + intentExtra, null, null);
                     if (cursor.moveToFirst()) {
                         double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
                         double volume = cursor.getDouble(cursor.getColumnIndexOrThrow("volume"));

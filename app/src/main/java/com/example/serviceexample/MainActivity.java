@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity{
                         aReturnTxtList.get(i).setText("N/A");
                     }
                 }
-//                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
+                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
 //                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
 //                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
             }
