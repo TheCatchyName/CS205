@@ -97,6 +97,14 @@ public class MainActivity extends AppCompatActivity{
         calc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
+                registerReceiver(myBroadcastReceiver, new IntentFilter("CHECK_TICKER"));
+
+                Intent intent = new Intent("CHECK_TICKER");
+                intent.putExtra("ticker", tickerEditTextList.get(0).getText().toString());
+                sendBroadcast(intent);
+
+
                 // if the editText is empty, don't show waiting for data
                 for (int i = 0; i < aVolatilityTxtList.size(); i++) {
                     if (!tickerEditTextList.get(i).getText().toString().matches("")) {
@@ -114,7 +122,8 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
                 myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
-//                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
+                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
+
 //                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
             }
         });
