@@ -29,16 +29,19 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (intent.hasExtra("ticker")) {
-                        String tickerName = intent.getStringExtra("ticker");
-                        Log.v("data", "broadcast receiver successfully received check_ticker: " + tickerName);
-                        Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
-                        Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
-                        if (cursor.moveToFirst()) {
-                            Log.v("data", cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")) + " success!!!");
-                            while (!cursor.isAfterLast()) {
-                                Log.v("data", "name: " + cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")));
-                                cursor.moveToNext();
+
+                    for (int i = 0; i < 5; i++) {
+                        if (intent.hasExtra("ticker" + i)) {
+                            String tickerName = intent.getStringExtra("ticker" + i);
+                            Log.v("data", "broadcast receiver successfully received check_ticker: " + tickerName);
+                            Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
+                            Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
+                            if (cursor.moveToFirst()) {
+                                Log.v("data", cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")) + " success!!!");
+                                while (!cursor.isAfterLast()) {
+                                    Log.v("data", "name: " + cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")));
+                                    cursor.moveToNext();
+                                }
                             }
                         }
                     }
@@ -57,48 +60,45 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         }
 
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
-            String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
-            if (intentExtra.equals("")) {
-                try {
-                    throw new Exception("Missing intent value");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            for (int i = 0; i < 5; i++) {
+                String intentExtra = intent.hasExtra("ticker" + i) ? intent.getStringExtra("ticker" + i) : "";
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
 //                    TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
 //                    result.setText("Calculating...");
-                    double sum_price = 0.0;
-                    double sum_volume = 0.0;
-                    Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name = " + intentExtra, null, null);
-                    if (cursor.moveToFirst()) {
-                        double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
-                        double volume = cursor.getDouble(cursor.getColumnIndexOrThrow("volume"));
-                        sum_price += close * volume;
-                        sum_volume += volume;
-                        while (!cursor.isAfterLast()) {
-                            int id = cursor.getColumnIndex("id");
-                            close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
-                            volume = cursor.getDouble(cursor.getColumnIndexOrThrow("volume"));
-                            sum_price += close * volume;
-                            sum_volume += volume;
-                            cursor.moveToNext();
-                            Log.v("data", close + "");
-                        }
-                    }
-                    else {
+                        double sum_price = 0.0;
+//                    double sum_volume = 0.0;
+                        int counter = 0;
+                        Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + intentExtra + "\'", null, null);
+                        if (cursor.moveToFirst()) {
+                            double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
+                            double open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
+                            sum_price += close - open;
+                            counter += 1;
+                            while (!cursor.isAfterLast()) {
+                                int id = cursor.getColumnIndex("id");
+                                close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
+                                open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
+                                sum_price += close - open;
+                                counter += 1;
+                                cursor.moveToNext();
+//                            Log.v("data",  "close: " + close + ", open: " + open);
+                            }
+                        } else {
 //                        result.setText("No Records Found");
-                    }
+                        }
 
-                    double vwap = sum_price / sum_volume;
+                        double annual = sum_price / counter;
+                        Log.v("data", "ticker: " + intentExtra + ", avg calculation: " + annual);
+
 //                    result.setText(String.format("%.2f", vwap));
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
 }

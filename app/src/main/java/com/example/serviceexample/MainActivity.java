@@ -101,7 +101,13 @@ public class MainActivity extends AppCompatActivity{
                 registerReceiver(myBroadcastReceiver, new IntentFilter("CHECK_TICKER"));
 
                 Intent intent = new Intent("CHECK_TICKER");
-                intent.putExtra("ticker", tickerEditTextList.get(0).getText().toString());
+
+                for (int i = 0; i < tickerEditTextList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        intent.putExtra("ticker" + String.valueOf(i+1), String.valueOf(tickerEditTextList.get(i).getText()));
+                    }
+                }
+
                 sendBroadcast(intent);
 
 
@@ -121,8 +127,16 @@ public class MainActivity extends AppCompatActivity{
                         aReturnTxtList.get(i).setText("N/A");
                     }
                 }
-                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
+//                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
+                Intent downloadIntent = new Intent("DOWNLOAD_COMPLETE");
                 registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
+                for (int i = 0; i < tickerEditTextList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        downloadIntent.putExtra("ticker" + String.valueOf(i+1), String.valueOf(tickerEditTextList.get(i).getText()));
+                    }
+                }
+
+                sendBroadcast(downloadIntent);
 
 //                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
             }
