@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:weightSum="100"
+    tools:context=".MainActivity"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
-        android:layout_marginTop="14dp"
-        android:padding="5dp"
+        android:layout_weight="15"
+        android:padding="20dp"
         android:background="@color/white"
         android:fontFamily="sans-serif"
         android:text="@string/title"
@@ -28,51 +27,33 @@
         android:layout_height="0dp"
         android:layout_weight="13"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/txtTicker1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:text="Ticker 1:" />
-
-            <EditText
-                android:id="@+id/editTicker1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:hint="Enter ticker 1"
-                android:paddingLeft="5dp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editTicker1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:hint="Ticker 1"
+            android:layout_margin="20dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -85,7 +66,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AR:" />
+                    android:text="@string/annualizedReturn" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -96,14 +77,14 @@
                     android:autoSizeMaxTextSize="100sp"
                     android:id="@+id/txtAnnualizedReturn1"
                     android:padding="5dp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -116,7 +97,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AV:" />
+                    android:text="@string/annualizedVolatility" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -127,7 +108,7 @@
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
@@ -138,60 +119,42 @@
     <View
         android:layout_width="match_parent"
         android:layout_height= "1dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="#808080" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="13"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/txtTicker2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:text="Ticker 2:" />
-
-            <EditText
-                android:id="@+id/editTicker2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:hint="Enter ticker 2"
-                android:paddingLeft="5dp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editTicker2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:hint="Ticker 2"
+            android:layout_margin="20dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -204,7 +167,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AR:" />
+                    android:text="@string/annualizedReturn" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -215,14 +178,14 @@
                     android:autoSizeMaxTextSize="100sp"
                     android:id="@+id/txtAnnualizedReturn2"
                     android:padding="5dp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -235,7 +198,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AV:" />
+                    android:text="@string/annualizedVolatility" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -246,7 +209,7 @@
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
@@ -257,60 +220,42 @@
     <View
         android:layout_width="match_parent"
         android:layout_height= "1dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="#808080" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="13"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/txtTicker3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:text="Ticker 3:" />
-
-            <EditText
-                android:id="@+id/editTicker3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:hint="Enter ticker 3"
-                android:paddingLeft="5dp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editTicker3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:hint="Ticker 3"
+            android:layout_margin="20dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -323,7 +268,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AR:" />
+                    android:text="@string/annualizedReturn" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -334,14 +279,14 @@
                     android:autoSizeMaxTextSize="100sp"
                     android:id="@+id/txtAnnualizedReturn3"
                     android:padding="5dp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -354,7 +299,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AV:" />
+                    android:text="@string/annualizedVolatility" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -365,7 +310,7 @@
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
@@ -376,60 +321,42 @@
     <View
         android:layout_width="match_parent"
         android:layout_height= "1dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="#808080" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="13"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/txtTicker4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:text="Ticker 4:" />
-
-            <EditText
-                android:id="@+id/editTicker4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:hint="Enter ticker 4"
-                android:paddingLeft="5dp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editTicker4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:hint="Ticker 4"
+            android:layout_margin="20dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -442,7 +369,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AR:" />
+                    android:text="@string/annualizedReturn" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -453,14 +380,14 @@
                     android:autoSizeMaxTextSize="100sp"
                     android:id="@+id/txtAnnualizedReturn4"
                     android:padding="5dp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -473,7 +400,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AV:" />
+                    android:text="@string/annualizedVolatility" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -484,7 +411,7 @@
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
@@ -495,60 +422,42 @@
     <View
         android:layout_width="match_parent"
         android:layout_height= "1dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="#808080" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="13"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <TextView
-                android:id="@+id/txtTicker5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp"
-                android:text="Ticker 5:" />
-
-            <EditText
-                android:id="@+id/editTicker5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:hint="Enter ticker 5"
-                android:paddingLeft="5dp"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="100sp" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/editTicker5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:hint="Ticker 5"
+            android:layout_margin="20dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -561,7 +470,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AR:" />
+                    android:text="@string/annualizedReturn" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -572,14 +481,14 @@
                     android:autoSizeMaxTextSize="100sp"
                     android:id="@+id/txtAnnualizedReturn5"
                     android:padding="5dp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="40"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="100">
@@ -592,7 +501,7 @@
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
                     android:padding="5dp"
-                    android:text="AV:" />
+                    android:text="@string/annualizedVolatility" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -603,7 +512,7 @@
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeMaxTextSize="100sp"
-                    android:text="N/A" />
+                    android:text="@string/NA" />
 
             </LinearLayout>
 
@@ -611,133 +520,14 @@
 
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="14"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="100">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTicker2"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:textSize="15sp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="20"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="Ticker 2:" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTicker2"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="50"-->
-<!--            android:hint="ticker2"-->
-<!--            android:minHeight="48dp"-->
-<!--            android:padding="5dp"-->
-<!--            android:paddingLeft="5dp"-->
-<!--            android:textSize="15sp" />-->
-
-<!--    </LinearLayout>-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="14"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="100">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTicker3"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:textSize="15sp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="20"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="Ticker 3:" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTicker3"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="50"-->
-<!--            android:hint="ticker3"-->
-<!--            android:minHeight="48dp"-->
-<!--            android:padding="5dp"-->
-<!--            android:paddingLeft="5dp"-->
-<!--            android:textSize="15sp" />-->
-
-<!--    </LinearLayout>-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="14"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="100">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTicker4"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:textSize="15sp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="20"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="Ticker 4:" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTicker4"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="50"-->
-<!--            android:hint="ticker4"-->
-<!--            android:minHeight="48dp"-->
-<!--            android:padding="5dp"-->
-<!--            android:paddingLeft="5dp"-->
-<!--            android:textSize="15sp" />-->
-
-<!--    </LinearLayout>-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="14"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="100">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTicker5"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="20"-->
-<!--            android:textSize="15sp"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="Ticker 5:" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTicker5"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="50"-->
-<!--            android:hint="ticker5"-->
-<!--            android:minHeight="48dp"-->
-<!--            android:padding="5dp"-->
-<!--            android:paddingLeft="5dp"-->
-<!--            android:textSize="15sp" />-->
-
-<!--    </LinearLayout>-->
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="100">
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="13"
+    android:gravity="center"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:weightSum="100">
 
         <LinearLayout
             android:layout_width="0dp"

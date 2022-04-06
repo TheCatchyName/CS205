@@ -9,4 +9,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title">CS205 Project</string>
+    <string name="annualizedReturn">AR: </string>
+    <string name="annualizedVolatility">AV: </string>
+    <string name="NA">N/A</string>
 </resources>
