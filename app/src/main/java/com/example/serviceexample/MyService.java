@@ -211,8 +211,7 @@ public class MyService extends Service{
         }
 
         //ticker = intent.getStringExtra("ticker");
-        Toast.makeText(this, "download starting", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(this, "download starting", Toast.LENGTH_SHORT).show();
         Message msg = serviceHandler.obtainMessage();
         msg.obj = tickerNames;
         serviceHandler.sendMessage(msg);
