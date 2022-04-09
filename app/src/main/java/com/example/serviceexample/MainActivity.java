@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity{
                     if (!tickerEditTextList.get(i).getText().toString().matches("")) {
                         numTickers++; // to keep track of how many tickers the user entered
 
+                        tickerEditTextList.get(i).setError(null);
+
                         // if user enters ticker1 and 3 but not 2, the intent will have the extras ticker1 and ticker3
                         // MyService: intent.hasExtra("ticker1") can use this code to check if an extra was set
                         // MyBroadcastReceiver: can use the 1/2/3/4/5 to know which annualizedReturn/annualizedVolatility textview to change also
