@@ -31,7 +31,7 @@ import java.util.Map;
 public class MyService extends Service{
     private Looper serviceLooper;
     private ServiceHandler serviceHandler;
-    private HashMap<String, String> tickerNames = new HashMap<>();
+    private HashMap<String, String> tickerNames;
 
     private static final String REQUEST_METHOD = "GET";
     private static final int READ_TIMEOUT = 15000;
@@ -197,6 +197,8 @@ public class MyService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
+        tickerNames = new HashMap<>();
+
         // to check which tickers have values entered by user
         for (int i = 1; i <= 5; i++) {
             if (intent.hasExtra("ticker" + i)) {
