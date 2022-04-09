@@ -131,6 +131,7 @@ public class MyService extends Service{
                                 values.put(HistoricalDataProvider.OPEN, open);
                                 values.put(HistoricalDataProvider.TICKER_NAME, tickerName);
                                 values.put(HistoricalDataProvider.VOLUME, volume);
+                                getContentResolver().delete(HistoricalDataProvider.CONTENT_URI,"ticker_name=?",new String[]{tickerName});
                                 getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
                             }
                         } catch (JSONException e) {
