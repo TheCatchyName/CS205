@@ -132,9 +132,6 @@ public class MainActivity extends AppCompatActivity{
                     }
 
                 }
-
-                sendBroadcast(intent);
-
                 for (int i = 0; i < aVolatilityTxtList.size(); i++) {
                     if (!tickerEditTextList.get(i).getText().toString().matches("")) {
                         aVolatilityTxtList.get(i).setText("Waiting for data.. ");
@@ -150,6 +147,7 @@ public class MainActivity extends AppCompatActivity{
                         aReturnTxtList.get(i).setText("N/A");
                     }
                 }
+                sendBroadcast(intent);
             }
         });
     }

@@ -132,7 +132,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 @Override
                 public void run() {
 
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 1; i <= 5; i++) {
                         if (intent.hasExtra("ticker" + i)) {
                             String tickerName = intent.getStringExtra("ticker" + i);
                             Log.v("data", "broadcast receiver successfully received check_ticker: " + tickerName);
