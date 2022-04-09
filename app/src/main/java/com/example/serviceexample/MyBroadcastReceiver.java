@@ -53,8 +53,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
             @Override
             public void run() {
-//                TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
-//                result.setText("Try another Ticker");
+                Log.v("TESTING ", "DOWNLOAD FAILED");
+                TextView result = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);;
+                result.setText("Try another Ticker");
             }
         });
         }
@@ -62,7 +63,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             for (int i = 0; i < 5; i++) {
                 String intentExtra = intent.hasExtra("ticker" + i) ? intent.getStringExtra("ticker" + i) : "";
-
+                Log.v("download completed", intentExtra);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {

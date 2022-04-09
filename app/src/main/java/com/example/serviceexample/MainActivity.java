@@ -92,13 +92,16 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
+        registerReceiver(myBroadcastReceiver, new IntentFilter("CHECK_TICKER"));
+        registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
+        registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
+
         // register broadcast receiver to get informed that data is downloaded so that we can calc
 
         calc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
-                registerReceiver(myBroadcastReceiver, new IntentFilter("CHECK_TICKER"));
 
                 Intent intent = new Intent("CHECK_TICKER");
 
