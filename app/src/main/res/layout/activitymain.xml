@@ -523,7 +523,7 @@
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="13"
+    android:layout_weight="15"
     android:gravity="center"
     android:padding="10dp"
     android:orientation="horizontal"
@@ -540,11 +540,11 @@
             <Button
                 android:id="@+id/btn_download"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_height="match_parent"
                 android:layout_weight="70"
-                android:text="Download" />
+                android:text="Download &amp; Calc" />
 
         </LinearLayout>
 

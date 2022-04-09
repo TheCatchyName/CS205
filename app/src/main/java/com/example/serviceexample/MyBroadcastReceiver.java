@@ -87,11 +87,11 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 String intentExtra = intent.getStringExtra("ticker");
                 int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
 
-//                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
-//                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
+                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
+                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
                 EditText editTextTicker = tickerEditTextList.get(index-1);
-//                txtAnnualizedReturn.setText("Invalid Ticker");
-//                txtAnnualizedVolatility.setText("Invalid Ticker");
+                txtAnnualizedReturn.setText("N/A");
+                txtAnnualizedVolatility.setText("N/A");
                 editTextTicker.setError("Invalid Ticker");
             }
         });
@@ -101,7 +101,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
             String tickerName = intentExtra.substring(0, intentExtra.length()-1);
             int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
-            Log.v("Index: ", String.valueOf(index));
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {
