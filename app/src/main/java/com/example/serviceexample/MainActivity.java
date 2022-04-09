@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,15 +21,12 @@ public class MainActivity extends AppCompatActivity{
     private Button download, calc;
     private TextView aReturn1, aVolatility1, aReturn2, aVolatility2, aReturn3, aVolatility3, aReturn4, aVolatility4, aReturn5, aVolatility5;
     private EditText ticker1, ticker2, ticker3, ticker4, ticker5;
-
-//    Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
     private BroadcastReceiver myBroadcastReceiver;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // set up layoutMSFT
-
         setContentView(R.layout.activitymain);
 
         download = (Button) findViewById(R.id.btn_download);
@@ -65,7 +60,6 @@ public class MainActivity extends AppCompatActivity{
         ));
 
         // start service, pass ticker info via an intent
-
         Intent intent = new Intent(getApplicationContext(), MyService.class);
 
         download.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +113,6 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
 
         // register broadcast receiver to get informed that data is downloaded so that we can calc
-
         calc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +157,4 @@ public class MainActivity extends AppCompatActivity{
         super.onStop();
         unregisterReceiver(myBroadcastReceiver);
     }
-
-
 }

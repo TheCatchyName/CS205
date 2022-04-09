@@ -3,7 +3,6 @@ package com.example.serviceexample;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -12,15 +11,11 @@ import android.os.Message;
 import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,7 +32,8 @@ public class MyService extends Service{
     private static final int READ_TIMEOUT = 15000;
     private static final int CONNECTION_TIMEOUT = 15000;
 
-    private String token ="c8vd5faad3iaocnjvp60"; // put your own token
+    // API token
+    private final String TOKEN ="c8vd5faad3iaocnjvp60";
 
     private final class ServiceHandler extends Handler{
         public ServiceHandler(Looper looper){
@@ -55,14 +51,13 @@ public class MyService extends Service{
                     String tickerName = threadName.substring(0, threadName.length()-1);
 
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ tickerName
-                            +"&resolution=D&from=1625097601&to=1640995199&token=" + token;
+                            +"&resolution=D&from=1625097601&to=1640995199&token=" + TOKEN;
                     String result;
                     String inputLine;
 
                     try {
 
                         // make GET requests
-
                         URL myUrl = new URL(stringUrl);
                         HttpURLConnection connection =(HttpURLConnection) myUrl.openConnection();
 
@@ -73,7 +68,6 @@ public class MyService extends Service{
                         connection.connect();
 
                         // store json string from GET response
-
                         InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
                         BufferedReader reader = new BufferedReader(streamReader);
                         StringBuilder stringBuilder = new StringBuilder();
@@ -93,19 +87,16 @@ public class MyService extends Service{
                         Thread.currentThread().interrupt();
                     }
 
-                    // parse the json string into 'close' and 'volume' array
-
+                    // parse the json string into 'close' and 'open' array
                     JSONObject jsonObject = null;
                     JSONArray jsonArrayClose = null;
                     JSONArray jsonArrayOpen = null;
-                    JSONArray jsonArrayVolume = null;
                     String status = null;
 
                     try {
                         jsonObject = new JSONObject(result);
                         status = jsonObject.getString("s");
                         jsonArrayClose = jsonObject.getJSONArray("c");
-                        jsonArrayVolume = jsonObject.getJSONArray("v");
                         jsonArrayOpen = jsonObject.getJSONArray("o");
 
                     } catch (JSONException e) {
@@ -116,22 +107,23 @@ public class MyService extends Service{
                         Log.v("data", "status: " + status);
                         Log.v("close", String.valueOf(jsonArrayClose.length()));
                         Log.v("open", String.valueOf(jsonArrayOpen.length()));
-                        Log.v("vol", String.valueOf(jsonArrayVolume.length()));
 
                         try {
                             for (int i = 0; i < jsonArrayClose.length(); i++) {
                                 double close = jsonArrayClose.getDouble(i);
-                                double volume = jsonArrayVolume.getDouble(i);
                                 double open = jsonArrayOpen.getDouble(i);
 
-                                Log.v("data", i + "ticker name: " + tickerName + ":, c: " + close + "o: " + open + " v: " + volume);
+                                Log.v("data", i + "ticker name: " + tickerName + ":, c: " + close + "o: " + open);
 
                                 ContentValues values = new ContentValues();
                                 values.put(HistoricalDataProvider.CLOSE, close);
                                 values.put(HistoricalDataProvider.OPEN, open);
                                 values.put(HistoricalDataProvider.TICKER_NAME, tickerName);
-                                values.put(HistoricalDataProvider.VOLUME, volume);
+
+                                // remove old data
                                 getContentResolver().delete(HistoricalDataProvider.CONTENT_URI,"ticker_name=?",new String[]{tickerName});
+
+                                // insert new data
                                 getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
                             }
                         } catch (JSONException e) {
@@ -139,13 +131,10 @@ public class MyService extends Service{
                         }
 
                         // broadcast message that download is complete
-
                         Intent intent = new Intent("DOWNLOAD_COMPLETE");
                         intent.putExtra("ticker", threadName);
                         sendBroadcast(intent);
-
                         stopSelf(msg.arg1);
-
                     } else {
                         Log.v("data", "status: " + status);
                         //if there is no such ticker/no data found, notify user with a toast and gracefully cancel
@@ -164,10 +153,6 @@ public class MyService extends Service{
             Thread[] threadArr = new Thread[tickerNames.size()];
 
             for (Map.Entry<String, String> set : tickerNames.entrySet()) {
-
-                System.out.println(set.getKey() + " = "
-                        + set.getValue());
-
                 String threadName = set.getValue() + set.getKey().substring(set.getKey().length()-1, set.getKey().length());
                 Thread thread = new Thread(runnable, threadName);
                 threadArr[index++] = thread;
@@ -225,5 +210,7 @@ public class MyService extends Service{
     }
 
     @Override
-    public void onDestroy(){ Toast.makeText(this, "download done", Toast.LENGTH_SHORT).show(); }
+    public void onDestroy(){
+        Toast.makeText(this, "download done", Toast.LENGTH_SHORT).show();
+    }
 }

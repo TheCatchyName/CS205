@@ -11,11 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.HashMap;
 
 public class HistoricalDataProvider extends ContentProvider {
@@ -27,7 +24,6 @@ public class HistoricalDataProvider extends ContentProvider {
     static final String CLOSE = "close";
     static final String OPEN = "open";
     static final String TICKER_NAME = "ticker_name";
-    static final String VOLUME = "volume";
 
     private static HashMap<String, String> HISTORY_PROJECTION_MAP;
 
@@ -52,12 +48,10 @@ public class HistoricalDataProvider extends ContentProvider {
                     " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     " close DECIMAL(10,3) NOT NULL, " +
                     " open DECIMAL(10,3) NOT NULL, " +
-                    " ticker_name VARCHAR(10) NOT NULL, " +
-                    " volume DECIMAL(10,1) NOT NULL);";
+                    " ticker_name VARCHAR(10) NOT NULL) ";
 
 
     // helper class creates repo
-
     private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -77,13 +71,12 @@ public class HistoricalDataProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-
         Context context = getContext();
         DatabaseHelper dbHelper = new DatabaseHelper(context);
+
         // create db if not exists
         db = dbHelper.getWritableDatabase();
         return db != null;
-
     }
 
 

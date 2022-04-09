@@ -1,6 +1,5 @@
 package com.example.serviceexample;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,17 +10,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Arrays;
-import java.util.List;
-
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
