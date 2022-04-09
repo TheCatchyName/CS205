@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity{
 
         // start service, pass ticker info via an intent
 
+        Intent intent = new Intent(getApplicationContext(), MyService.class);
+
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(getApplicationContext(), MyService.class);
                 int numTickers = 0;
 
                 for (int i = 0; i < tickerEditTextList.size(); i++) {
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity{
                         // MyService: intent.hasExtra("ticker1") can use this code to check if an extra was set
                         // MyBroadcastReceiver: can use the 1/2/3/4/5 to know which annualizedReturn/annualizedVolatility textview to change also
                         intent.putExtra("ticker" + String.valueOf(i+1), String.valueOf(tickerEditTextList.get(i).getText())); // for e.g. ticker1, "MSFT" or ticker2, "GOOGL"
+                    } else {
+                        intent.removeExtra("ticker" + String.valueOf(i+1));
                     }
                 }
 
