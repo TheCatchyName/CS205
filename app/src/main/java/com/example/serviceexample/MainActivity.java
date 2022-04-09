@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // set up layout
+        // set up layoutMSFT
 
         setContentView(R.layout.activitymain);
 
