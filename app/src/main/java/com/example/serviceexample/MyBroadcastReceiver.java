@@ -129,10 +129,13 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                             Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
                             if (cursor.moveToFirst()) {
                                 Log.v("data", cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")) + " success!!!");
-                                while (!cursor.isAfterLast()) {
-                                    Log.v("data", "name: " + cursor.getString(cursor.getColumnIndexOrThrow("ticker_name")));
-                                    cursor.moveToNext();
-                                }
+                                Intent intent = new Intent("DOWNLOAD_COMPLETE");
+                                intent.putExtra("ticker", tickerName + i);
+                                context.sendBroadcast(intent);
+
+                            } else {
+                                EditText editTextTicker = tickerEditTextList.get(i-1);
+                                editTextTicker.setError("Ticker not found, try downloading?");
                             }
                         }
                     }
