@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,9 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
@@ -84,6 +88,34 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        TextView aReturn1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);
+        TextView aVolatility1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility1);
+        TextView aReturn2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn2);
+        TextView aVolatility2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility2);
+        TextView aReturn3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn3);
+        TextView aVolatility3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility3);
+        TextView aReturn4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn4);
+        TextView aVolatility4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility4);
+        TextView aReturn5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn5);
+        TextView aVolatility5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility5);
+        EditText ticker1 = (EditText) ((Activity)context).findViewById(R.id.editTicker1);
+        EditText ticker2 = (EditText) ((Activity)context).findViewById(R.id.editTicker2);
+        EditText ticker3 = (EditText) ((Activity)context).findViewById(R.id.editTicker3);
+        EditText ticker4 = (EditText) ((Activity)context).findViewById(R.id.editTicker4);
+        EditText ticker5 = (EditText) ((Activity)context).findViewById(R.id.editTicker5);
+
+        List<EditText> tickerEditTextList = new ArrayList<EditText>(Arrays.asList(
+                ticker1, ticker2, ticker3, ticker4, ticker5
+        ));
+
+        List<TextView> aVolatilityTxtList = new ArrayList<TextView>(Arrays.asList(
+                aVolatility1, aVolatility2, aVolatility3, aVolatility4, aVolatility5
+        ));
+
+        List<TextView> aReturnTxtList = new ArrayList<TextView>(Arrays.asList(
+                aReturn1, aReturn2, aReturn3, aReturn4, aReturn5
+        ));
+
         if (intent.getAction().equals("CHECK_TICKER")) {
             handler.post(new Runnable() {
                 @Override
@@ -112,8 +144,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
             @Override
             public void run() {
-//                TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
-//                result.setText("Try another Ticker");
+                String intentExtra = intent.getStringExtra("ticker");
+                int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
+
+//                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
+//                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
+                EditText editTextTicker = tickerEditTextList.get(index-1);
+//                txtAnnualizedReturn.setText("Invalid Ticker");
+//                txtAnnualizedVolatility.setText("Invalid Ticker");
+                editTextTicker.setError("Invalid Ticker");
             }
         });
         }
@@ -122,6 +161,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
             String tickerName = intentExtra.substring(0, intentExtra.length()-1);
             int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
+            Log.v("Index: ", String.valueOf(index));
             handler.post(new Runnable() {
                 @Override
                 public void run() {
