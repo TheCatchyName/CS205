@@ -130,18 +130,6 @@ public class MainActivity extends AppCompatActivity{
                         aReturnTxtList.get(i).setText("N/A");
                     }
                 }
-//                myBroadcastReceiver = new MyBroadcastReceiver(new Handler(Looper.getMainLooper()));
-                Intent downloadIntent = new Intent("DOWNLOAD_COMPLETE");
-                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_COMPLETE"));
-                for (int i = 0; i < tickerEditTextList.size(); i++) {
-                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
-                        downloadIntent.putExtra("ticker" + String.valueOf(i+1), String.valueOf(tickerEditTextList.get(i).getText()));
-                    }
-                }
-
-                sendBroadcast(downloadIntent);
-
-//                registerReceiver(myBroadcastReceiver, new IntentFilter("DOWNLOAD_FAILED"));
             }
         });
     }
