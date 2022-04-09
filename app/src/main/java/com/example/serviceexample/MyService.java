@@ -54,7 +54,7 @@ public class MyService extends Service{
                     String tickerName = threadName.substring(0, threadName.length()-1);
 
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ tickerName
-                            +"&resolution=1&from=1625097601&to=1625207601&token=" + token;
+                            +"&resolution=D&from=1625097601&to=1640995199&token=" + token;
                     String result;
                     String inputLine;
 
