@@ -544,7 +544,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="70"
-                android:text="Download &amp; Calc" />
+                android:text="Download &amp; Calc"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -559,11 +560,12 @@
             <Button
                 android:id="@+id/btn_calc"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_height="match_parent"
                 android:layout_weight="70"
-                android:text="CALC" />
+                android:text="CALC DOWNLOADED"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
