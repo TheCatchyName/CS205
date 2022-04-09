@@ -85,36 +85,47 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         return aVolatilityMap.get(i);
     }
 
+    public EditText getTickerEditText(Context context, int i) {
+        if (i == 0) return null;
+        HashMap<Integer, EditText> editTextHashMap = new HashMap<>();
+        editTextHashMap.put(1, (EditText) ((Activity)context).findViewById(R.id.editTicker1));
+        editTextHashMap.put(2, (EditText) ((Activity)context).findViewById(R.id.editTicker2));
+        editTextHashMap.put(3, (EditText) ((Activity)context).findViewById(R.id.editTicker3));
+        editTextHashMap.put(4, (EditText) ((Activity)context).findViewById(R.id.editTicker4));
+        editTextHashMap.put(5, (EditText) ((Activity)context).findViewById(R.id.editTicker5));
+        return editTextHashMap.get(i);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        TextView aReturn1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);
-        TextView aVolatility1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility1);
-        TextView aReturn2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn2);
-        TextView aVolatility2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility2);
-        TextView aReturn3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn3);
-        TextView aVolatility3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility3);
-        TextView aReturn4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn4);
-        TextView aVolatility4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility4);
-        TextView aReturn5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn5);
-        TextView aVolatility5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility5);
-        EditText ticker1 = (EditText) ((Activity)context).findViewById(R.id.editTicker1);
-        EditText ticker2 = (EditText) ((Activity)context).findViewById(R.id.editTicker2);
-        EditText ticker3 = (EditText) ((Activity)context).findViewById(R.id.editTicker3);
-        EditText ticker4 = (EditText) ((Activity)context).findViewById(R.id.editTicker4);
-        EditText ticker5 = (EditText) ((Activity)context).findViewById(R.id.editTicker5);
-
-        List<EditText> tickerEditTextList = new ArrayList<EditText>(Arrays.asList(
-                ticker1, ticker2, ticker3, ticker4, ticker5
-        ));
-
-        List<TextView> aVolatilityTxtList = new ArrayList<TextView>(Arrays.asList(
-                aVolatility1, aVolatility2, aVolatility3, aVolatility4, aVolatility5
-        ));
-
-        List<TextView> aReturnTxtList = new ArrayList<TextView>(Arrays.asList(
-                aReturn1, aReturn2, aReturn3, aReturn4, aReturn5
-        ));
+//        TextView aReturn1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);
+//        TextView aVolatility1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility1);
+//        TextView aReturn2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn2);
+//        TextView aVolatility2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility2);
+//        TextView aReturn3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn3);
+//        TextView aVolatility3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility3);
+//        TextView aReturn4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn4);
+//        TextView aVolatility4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility4);
+//        TextView aReturn5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn5);
+//        TextView aVolatility5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility5);
+//        EditText ticker1 = (EditText) ((Activity)context).findViewById(R.id.editTicker1);
+//        EditText ticker2 = (EditText) ((Activity)context).findViewById(R.id.editTicker2);
+//        EditText ticker3 = (EditText) ((Activity)context).findViewById(R.id.editTicker3);
+//        EditText ticker4 = (EditText) ((Activity)context).findViewById(R.id.editTicker4);
+//        EditText ticker5 = (EditText) ((Activity)context).findViewById(R.id.editTicker5);
+//
+//        List<EditText> tickerEditTextList = new ArrayList<EditText>(Arrays.asList(
+//                ticker1, ticker2, ticker3, ticker4, ticker5
+//        ));
+//
+//        List<TextView> aVolatilityTxtList = new ArrayList<TextView>(Arrays.asList(
+//                aVolatility1, aVolatility2, aVolatility3, aVolatility4, aVolatility5
+//        ));
+//
+//        List<TextView> aReturnTxtList = new ArrayList<TextView>(Arrays.asList(
+//                aReturn1, aReturn2, aReturn3, aReturn4, aReturn5
+//        ));
 
         if (intent.getAction().equals("CHECK_TICKER")) {
             handler.post(new Runnable() {
@@ -134,7 +145,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                                 context.sendBroadcast(intent);
 
                             } else {
-                                EditText editTextTicker = tickerEditTextList.get(i-1);
+                                EditText editTextTicker = getTickerEditText(context, i);
                                 editTextTicker.setError("Ticker not found, try downloading?");
                             }
                         }
@@ -150,9 +161,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 String intentExtra = intent.getStringExtra("ticker");
                 int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
 
-                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
-                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
-                EditText editTextTicker = tickerEditTextList.get(index-1);
+                TextView txtAnnualizedReturn = getAReturnTextView(context, index);
+                TextView txtAnnualizedVolatility = getAVolatilityTextView(context, index);
+                EditText editTextTicker = getTickerEditText(context, index);
                 txtAnnualizedReturn.setText("N/A");
                 txtAnnualizedVolatility.setText("N/A");
                 editTextTicker.setError("Invalid Ticker");
