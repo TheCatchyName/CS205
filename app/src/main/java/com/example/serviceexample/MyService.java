@@ -51,7 +51,7 @@ public class MyService extends Service{
                 @Override
                 public void run() {
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ Thread.currentThread().getName()
-                            +"&resolution=1&from=1625097601&to=1640995199&token=" + token;
+                            +"&resolution=1&from=1625097601&to=1625207601&token=" + token;
                     String result;
                     String inputLine;
 
