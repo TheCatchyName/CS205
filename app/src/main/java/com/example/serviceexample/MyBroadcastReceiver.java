@@ -193,7 +193,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         double annualizedReturns = getAnnualizedReturns(openList, closeList);
                         double annualizedVolatility = getAnnualizedVolatility(openList, closeList);
                         Log.v("annualized returns",  annualizedReturns + "");
-                        Log.v("annualized volatility",  annualizedReturns + "");
+                        Log.v("annualized volatility",  annualizedVolatility + "");
                         aReturnTextView.setText(String.format("%.2f", annualizedReturns)+"%");
                         aVolatilityTextView.setText(String.format("%.2f", annualizedVolatility)+"%");
                     } else {

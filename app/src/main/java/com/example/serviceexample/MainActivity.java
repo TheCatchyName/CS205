@@ -127,10 +127,29 @@ public class MainActivity extends AppCompatActivity{
                 for (int i = 0; i < tickerEditTextList.size(); i++) {
                     if (!tickerEditTextList.get(i).getText().toString().matches("")) {
                         intent.putExtra("ticker" + String.valueOf(i+1), String.valueOf(tickerEditTextList.get(i).getText()));
+                    } else {
+                        intent.removeExtra("ticker" + String.valueOf(i+1));
                     }
+
                 }
 
                 sendBroadcast(intent);
+
+                for (int i = 0; i < aVolatilityTxtList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        aVolatilityTxtList.get(i).setText("Waiting for data.. ");
+                    } else {
+                        aVolatilityTxtList.get(i).setText("N/A");
+                    }
+                }
+
+                for (int i = 0; i < aReturnTxtList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        aReturnTxtList.get(i).setText("Waiting for data.. ");
+                    } else {
+                        aReturnTxtList.get(i).setText("N/A");
+                    }
+                }
             }
         });
     }
