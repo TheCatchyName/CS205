@@ -50,7 +50,10 @@ public class MyService extends Service{
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ Thread.currentThread().getName()
+                    String threadName = Thread.currentThread().getName();
+                    String tickerName = threadName.substring(0, threadName.length()-1);
+
+                    String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ tickerName
                             +"&resolution=1&from=1625097601&to=1625207601&token=" + token;
                     String result;
                     String inputLine;
@@ -104,7 +107,9 @@ public class MyService extends Service{
                         jsonArrayVolume = jsonObject.getJSONArray("v");
                         jsonArrayOpen = jsonObject.getJSONArray("o");
 
-                    } catch (JSONException e) {e.printStackTrace();}
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     if (status.equals("ok")) {
                         Log.v("data", "status: " + status);
@@ -118,12 +123,12 @@ public class MyService extends Service{
                                 double volume = jsonArrayVolume.getDouble(i);
                                 double open = jsonArrayOpen.getDouble(i);
 
-                                Log.v("data", i + "ticker name: " + Thread.currentThread().getName() + ":, c: " + close + "o: " + open + " v: " + volume);
+                                Log.v("data", i + "ticker name: " + tickerName + ":, c: " + close + "o: " + open + " v: " + volume);
 
                                 ContentValues values = new ContentValues();
                                 values.put(HistoricalDataProvider.CLOSE, close);
                                 values.put(HistoricalDataProvider.OPEN, open);
-                                values.put(HistoricalDataProvider.TICKER_NAME, Thread.currentThread().getName());
+                                values.put(HistoricalDataProvider.TICKER_NAME, tickerName);
                                 values.put(HistoricalDataProvider.VOLUME, volume);
                                 getContentResolver().insert(HistoricalDataProvider.CONTENT_URI, values);
                             }
@@ -134,7 +139,7 @@ public class MyService extends Service{
                         // broadcast message that download is complete
 
                         Intent intent = new Intent("DOWNLOAD_COMPLETE");
-                        intent.putExtra("ticker", Thread.currentThread().getName());
+                        intent.putExtra("ticker", threadName);
                         sendBroadcast(intent);
 
                         stopSelf(msg.arg1);
@@ -160,8 +165,10 @@ public class MyService extends Service{
 
                 System.out.println(set.getKey() + " = "
                         + set.getValue());
-                Thread thread = new Thread(runnable, set.getValue());
-                threadArr[index++] = thread;
+                index++;
+                String threadName = set.getValue() + index;
+                Thread thread = new Thread(runnable, threadName);
+                threadArr[index-1] = thread;
             }
 
             for (Thread thread : threadArr) {

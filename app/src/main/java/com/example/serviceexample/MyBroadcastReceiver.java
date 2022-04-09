@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
@@ -24,6 +26,25 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        TextView aReturn1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);
+        TextView aVolatility1 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility1);
+        TextView aReturn2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn2);
+        TextView aVolatility2 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility2);
+        TextView aReturn3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn3);
+        TextView aVolatility3 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility3);
+        TextView aReturn4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn4);
+        TextView aVolatility4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility4);
+        TextView aReturn5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn5);
+        TextView aVolatility5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility5);
+
+        List<TextView> aVolatilityTxtList = new ArrayList<TextView>(Arrays.asList(
+                aVolatility1, aVolatility2, aVolatility3, aVolatility4, aVolatility5
+        ));
+
+        List<TextView> aReturnTxtList = new ArrayList<TextView>(Arrays.asList(
+                aReturn1, aReturn2, aReturn3, aReturn4, aReturn5
+        ));
 
         if (intent.getAction().equals("CHECK_TICKER")) {
             handler.post(new Runnable() {
@@ -53,53 +74,55 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
             @Override
             public void run() {
-                Log.v("TESTING ", "DOWNLOAD FAILED");
-                TextView result = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn1);;
-                result.setText("Try another Ticker");
+                String intentExtra = intent.getStringExtra("ticker");
+                int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
+
+                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
+                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
+                txtAnnualizedReturn.setText("Invalid Ticker");
+                txtAnnualizedVolatility.setText("Invalid Ticker");
             }
         });
         }
 
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
-            for (int i = 0; i < 5; i++) {
-                String intentExtra = intent.hasExtra("ticker" + i) ? intent.getStringExtra("ticker" + i) : "";
-                Log.v("download completed", intentExtra);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
+            String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
+            String tickerName = intentExtra.substring(0, intentExtra.length()-1);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
 //                    TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
 //                    result.setText("Calculating...");
-                        double sum_price = 0.0;
+                    double sum_price = 0.0;
 //                    double sum_volume = 0.0;
-                        int counter = 0;
-                        Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + intentExtra + "\'", null, null);
-                        if (cursor.moveToFirst()) {
-                            double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
-                            double open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
+                    int counter = 0;
+                    Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
+                    if (cursor.moveToFirst()) {
+                        double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
+                        double open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
+                        sum_price += close - open;
+                        counter += 1;
+                        while (!cursor.isAfterLast()) {
+                            int id = cursor.getColumnIndex("id");
+                            close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
+                            open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
                             sum_price += close - open;
                             counter += 1;
-                            while (!cursor.isAfterLast()) {
-                                int id = cursor.getColumnIndex("id");
-                                close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
-                                open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
-                                sum_price += close - open;
-                                counter += 1;
-                                cursor.moveToNext();
+                            cursor.moveToNext();
 //                            Log.v("data",  "close: " + close + ", open: " + open);
-                            }
-                        } else {
-//                        result.setText("No Records Found");
                         }
+                    } else {
+//                        result.setText("No Records Found");
+                    }
 
-                        double annual = sum_price / counter;
-                        Log.v("data", "ticker: " + intentExtra + ", avg calculation: " + annual);
+                    double annual = sum_price / counter;
+                    Log.v("data", "ticker: " + tickerName + ", avg calculation: " + annual);
 
 //                    result.setText(String.format("%.2f", vwap));
 
-                    }
-                });
-            }
+                }
+            });
         }
     }
 }
