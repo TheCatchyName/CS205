@@ -46,9 +46,9 @@ public class MyService extends Service{
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    String threadName = Thread.currentThread().getName();
+                    String threadName = Thread.currentThread().getName(); // e.g. GOOGL3
                     Log.v("thread name", threadName);
-                    String tickerName = threadName.substring(0, threadName.length()-1);
+                    String tickerName = threadName.substring(0, threadName.length()-1); // e.g. GOOGL
 
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ tickerName
                             +"&resolution=D&from=1625097601&to=1640995199&token=" + TOKEN;
@@ -132,19 +132,18 @@ public class MyService extends Service{
 
                         // broadcast message that download is complete
                         Intent intent = new Intent("DOWNLOAD_COMPLETE");
-                        intent.putExtra("ticker", threadName);
+                        intent.putExtra("ticker", threadName); // e.g. name of extra: ticker, value of extra: GOOGL3
                         sendBroadcast(intent);
                         stopSelf(msg.arg1);
                     } else {
                         Log.v("data", "status: " + status);
-                        //if there is no such ticker/no data found, notify user with a toast and gracefully cancel
+                        //if there is no such ticker/no data found, notify user with an error message (in broadcast receiver DOWNLOAD_FAILED) and gracefully cancel
                         //i.e. if download failed for any reason
                         Intent intent = new Intent("DOWNLOAD_FAILED");
                         intent.putExtra("ticker", Thread.currentThread().getName());
                         sendBroadcast(intent);
 
                         stopSelf(msg.arg1);
-
                     }
                 }
             };
@@ -153,11 +152,12 @@ public class MyService extends Service{
             Thread[] threadArr = new Thread[tickerNames.size()];
 
             for (Map.Entry<String, String> set : tickerNames.entrySet()) {
-                String threadName = set.getValue() + set.getKey().substring(set.getKey().length()-1, set.getKey().length());
+                String threadName = set.getValue() + set.getKey().substring(set.getKey().length()-1, set.getKey().length()); // e.g. GOOGL3 if GOOGL was entered in the third edit text
                 Thread thread = new Thread(runnable, threadName);
                 threadArr[index++] = thread;
             }
 
+            // start threads
             for (Thread thread : threadArr) {
                 thread.start();
             }
@@ -188,15 +188,13 @@ public class MyService extends Service{
         // to check which tickers have values entered by user
         for (int i = 1; i <= 5; i++) {
             if (intent.hasExtra("ticker" + i)) {
-                tickerNames.put("ticker" + i, intent.getStringExtra("ticker" + i));
+                tickerNames.put("ticker" + i, intent.getStringExtra("ticker" + i)); // e.g. key: ticker3, value: GOOGL
             }
 
             Log.v("ticker" + i + " exists: ", String.valueOf(intent.hasExtra("ticker" + i)));
             Log.v("ticker" + i + " value: ", String.valueOf(intent.getStringExtra("ticker" + i)));
         }
 
-        //ticker = intent.getStringExtra("ticker");
-//        Toast.makeText(this, "download starting", Toast.LENGTH_SHORT).show();
         Message msg = serviceHandler.obtainMessage();
         msg.obj = tickerNames;
         serviceHandler.sendMessage(msg);

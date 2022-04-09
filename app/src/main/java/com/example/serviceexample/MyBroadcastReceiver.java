@@ -89,6 +89,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        // to check if data already exists in db when calc downloaded button is pressed and calculate if exists, else, prompt user to download the data instead
         if (intent.getAction().equals("CHECK_TICKER")) {
             handler.post(new Runnable() {
                 @Override
@@ -108,7 +109,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
                             } else {
                                 EditText editTextTicker = getTickerEditText(context, i);
-                                editTextTicker.setError("Ticker not found, try downloading?");
+                                editTextTicker.setError("Ticker not found, try downloading?"); // prompt user to download data
                             }
                         }
                     }
@@ -116,6 +117,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             });
         }
 
+        // ticker name invalid
         if (intent.getAction().equals("DOWNLOAD_FAILED")) {
             handler.post(new Runnable() {
             @Override
@@ -133,6 +135,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         });
         }
 
+        // download has completed, calculate annualized returns and volatility
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
             String tickerName = intentExtra.substring(0, intentExtra.length()-1);
