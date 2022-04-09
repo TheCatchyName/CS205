@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // set up layout
+        // set up layoutMSFT
 
         setContentView(R.layout.activitymain);
 
@@ -89,6 +89,23 @@ public class MainActivity extends AppCompatActivity{
                     startService(intent);
                     Log.v("myservice ", "started");
                 }
+
+                // if the editText is empty, don't show waiting for data
+                for (int i = 0; i < aVolatilityTxtList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        aVolatilityTxtList.get(i).setText("Waiting for data.. ");
+                    } else {
+                        aVolatilityTxtList.get(i).setText("N/A");
+                    }
+                }
+
+                for (int i = 0; i < aReturnTxtList.size(); i++) {
+                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
+                        aReturnTxtList.get(i).setText("Waiting for data.. ");
+                    } else {
+                        aReturnTxtList.get(i).setText("N/A");
+                    }
+                }
             }
         });
 
@@ -112,24 +129,6 @@ public class MainActivity extends AppCompatActivity{
                 }
 
                 sendBroadcast(intent);
-
-
-                // if the editText is empty, don't show waiting for data
-                for (int i = 0; i < aVolatilityTxtList.size(); i++) {
-                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
-                        aVolatilityTxtList.get(i).setText("Waiting for data.. ");
-                    } else {
-                        aVolatilityTxtList.get(i).setText("N/A");
-                    }
-                }
-
-                for (int i = 0; i < aReturnTxtList.size(); i++) {
-                    if (!tickerEditTextList.get(i).getText().toString().matches("")) {
-                        aReturnTxtList.get(i).setText("Waiting for data.. ");
-                    } else {
-                        aReturnTxtList.get(i).setText("N/A");
-                    }
-                }
             }
         });
     }
