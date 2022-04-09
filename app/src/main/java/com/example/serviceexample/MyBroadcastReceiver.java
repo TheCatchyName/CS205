@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         TextView aVolatility4 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility4);
         TextView aReturn5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedReturn5);
         TextView aVolatility5 = (TextView) ((Activity)context).findViewById(R.id.txtAnnualizedVolatility5);
+        EditText ticker1 = (EditText) ((Activity)context).findViewById(R.id.editTicker1);
+        EditText ticker2 = (EditText) ((Activity)context).findViewById(R.id.editTicker2);
+        EditText ticker3 = (EditText) ((Activity)context).findViewById(R.id.editTicker3);
+        EditText ticker4 = (EditText) ((Activity)context).findViewById(R.id.editTicker4);
+        EditText ticker5 = (EditText) ((Activity)context).findViewById(R.id.editTicker5);
+
+        List<EditText> tickerEditTextList = new ArrayList<EditText>(Arrays.asList(
+                ticker1, ticker2, ticker3, ticker4, ticker5
+        ));
 
         List<TextView> aVolatilityTxtList = new ArrayList<TextView>(Arrays.asList(
                 aVolatility1, aVolatility2, aVolatility3, aVolatility4, aVolatility5
@@ -77,10 +87,12 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 String intentExtra = intent.getStringExtra("ticker");
                 int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
 
-                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
-                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
-                txtAnnualizedReturn.setText("Invalid Ticker");
-                txtAnnualizedVolatility.setText("Invalid Ticker");
+//                TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
+//                TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
+                EditText editTextTicker = tickerEditTextList.get(index-1);
+//                txtAnnualizedReturn.setText("Invalid Ticker");
+//                txtAnnualizedVolatility.setText("Invalid Ticker");
+                editTextTicker.setError("Invalid Ticker");
             }
         });
         }
@@ -88,12 +100,16 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
             String tickerName = intentExtra.substring(0, intentExtra.length()-1);
+            int index = Integer.parseInt(intentExtra.substring(intentExtra.length() - 1, intentExtra.length()));
+            Log.v("Index: ", String.valueOf(index));
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     Uri CONTENT_URI = Uri.parse("content://com.example.serviceexample.HistoricalDataProvider/history");
-//                    TextView result = (TextView) ((Activity)context).findViewById(R.id.textview_result);
-//                    result.setText("Calculating...");
+                    TextView txtAnnualizedReturn = aReturnTxtList.get(index-1);
+                    TextView txtAnnualizedVolatility = aVolatilityTxtList.get(index-1);
+                    txtAnnualizedReturn.setText("Calculating...");
+                    txtAnnualizedVolatility.setText("Calculating...");
                     double sum_price = 0.0;
 //                    double sum_volume = 0.0;
                     int counter = 0;

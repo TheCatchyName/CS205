@@ -51,6 +51,7 @@ public class MyService extends Service{
                 @Override
                 public void run() {
                     String threadName = Thread.currentThread().getName();
+                    Log.v("thread name", threadName);
                     String tickerName = threadName.substring(0, threadName.length()-1);
 
                     String stringUrl = "https://finnhub.io/api/v1/stock/candle?symbol="+ tickerName
@@ -165,10 +166,10 @@ public class MyService extends Service{
 
                 System.out.println(set.getKey() + " = "
                         + set.getValue());
-                index++;
-                String threadName = set.getValue() + index;
+
+                String threadName = set.getValue() + set.getKey().substring(set.getKey().length()-1, set.getKey().length());
                 Thread thread = new Thread(runnable, threadName);
-                threadArr[index-1] = thread;
+                threadArr[index++] = thread;
             }
 
             for (Thread thread : threadArr) {
