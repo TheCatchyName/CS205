@@ -21,6 +21,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         this.handler = handler;
     }
 
+    /*
+     * Helper function for calculating annualised returns
+     */
     public double getAnnualizedReturns(ArrayList<Double> openList, ArrayList<Double> closeList) {
         int rows = openList.size();
         double sum = 0.0;
@@ -32,7 +35,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         double result = (average * NUM_TRADING_DAYS)*100;
         return result;
     }
-
+    /*
+     * Helper function for calculating annualised volatility
+     */
     public double getAnnualizedVolatility(ArrayList<Double> openList, ArrayList<Double> closeList) {
         int rows = openList.size();
         double sum = 0.0;
@@ -53,6 +58,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         return result;
     }
 
+    /*
+     * Helper functions for easily indexing and editing the ui elements
+     */
     public TextView getAReturnTextView(Context context, int i) {
         if (i == 0) return null;
         HashMap<Integer, TextView> aReturnMap = new HashMap<>();
@@ -89,7 +97,12 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        // to check if data already exists in db when calc downloaded button is pressed and calculate if exists, else, prompt user to download the data instead
+        /*
+         * Checks if data exists in the database for a given ticker.
+         * If data exists, prompts the calculation by sending a download_complete intent
+         * Else, prompts the user to download the data
+         */
+
         if (intent.getAction().equals("CHECK_TICKER")) {
             handler.post(new Runnable() {
                 @Override
@@ -117,7 +130,10 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             });
         }
 
-        // ticker name invalid
+        /*
+         * Informs the user if the ticker name entered does not exist in the api.
+         * The logic of checking if the ticker is valid is found in MyService
+         */
         if (intent.getAction().equals("DOWNLOAD_FAILED")) {
             handler.post(new Runnable() {
             @Override
@@ -135,6 +151,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         });
         }
 
+        /*
+         * Accesses the database to retrieve entries of a specific ticker, then calculates the annualized returns and volatility and displays it
+         */
         // download has completed, calculate annualized returns and volatility
         if (intent.getAction().equals("DOWNLOAD_COMPLETE")) {
             String intentExtra = intent.hasExtra("ticker") ? intent.getStringExtra("ticker") : "";
@@ -151,6 +170,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                     aVolatilityTextView.setText("Calculating...");
                     ArrayList<Double> closeList = new ArrayList<>();
                     ArrayList<Double> openList = new ArrayList<>();
+
+                    //query the local database for all records which match the ticker name
                     Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, "ticker_name LIKE \'" + tickerName + "\'", null, null);
                     if (cursor.moveToFirst()) {
                         double close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
@@ -158,6 +179,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         closeList.add(close);
                         openList.add(open);
                         cursor.moveToNext();
+                        //iterate through all the records retrieved
                         while (!cursor.isAfterLast()) {
                             close = cursor.getDouble(cursor.getColumnIndexOrThrow("close"));
                             open = cursor.getDouble(cursor.getColumnIndexOrThrow("open"));
@@ -166,6 +188,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                             cursor.moveToNext();
                             Log.v("open, close", open + " " + close);
                         }
+                        //calculate using helper functions
                         double annualizedReturns = getAnnualizedReturns(openList, closeList);
                         double annualizedVolatility = getAnnualizedVolatility(openList, closeList);
                         Log.v("annualized returns",  annualizedReturns + "");
@@ -173,6 +196,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         aReturnTextView.setText(String.format("%.2f", annualizedReturns)+"%");
                         aVolatilityTextView.setText(String.format("%.2f", annualizedVolatility)+"%");
                     } else {
+                        //fallback error in case user manages to trigger download complete but data is not stored in the database
                         aReturnTextView.setText("No records found");
                         aVolatilityTextView.setText("No records found");
                     }

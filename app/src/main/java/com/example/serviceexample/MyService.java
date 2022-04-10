@@ -42,7 +42,10 @@ public class MyService extends Service{
 
         @Override
         public void handleMessage(Message msg){
-
+            /*
+             * Connects to API and downloads relevant information for the ticker specified by the thread name.
+             * Multithreading handled at the level above (see below) by starting multiple instances
+             */
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -120,7 +123,7 @@ public class MyService extends Service{
                                 values.put(HistoricalDataProvider.OPEN, open);
                                 values.put(HistoricalDataProvider.TICKER_NAME, tickerName);
 
-                                // remove old data
+                                // remove old data - necessary to prevent duplication of data when download button is spammed
                                 getContentResolver().delete(HistoricalDataProvider.CONTENT_URI,"ticker_name=?",new String[]{tickerName});
 
                                 // insert new data
@@ -130,7 +133,7 @@ public class MyService extends Service{
                             e.printStackTrace();
                         }
 
-                        // broadcast message that download is complete
+                        // broadcast message that download is complete, to trigger the calculation
                         Intent intent = new Intent("DOWNLOAD_COMPLETE");
                         intent.putExtra("ticker", threadName); // e.g. name of extra: ticker, value of extra: GOOGL3
                         sendBroadcast(intent);
@@ -148,6 +151,10 @@ public class MyService extends Service{
                 }
             };
 
+            /*
+             * Handle multithreading by creating a new runnable for each ticker in the tickernames dictionary
+             */
+
             int index = 0;
             Thread[] threadArr = new Thread[tickerNames.size()];
 
@@ -162,6 +169,7 @@ public class MyService extends Service{
                 thread.start();
             }
 
+            //checks for all threads to complete, then terminates gracefully
             for (Thread thread : threadArr) {
                 try {
                     thread.join();
@@ -170,6 +178,8 @@ public class MyService extends Service{
                 }
             }
 
+            //shut down service on completion of download, to reduce hogging of system resources
+            stopSelf();
         }
     }
 
@@ -209,6 +219,6 @@ public class MyService extends Service{
 
     @Override
     public void onDestroy(){
-        Toast.makeText(this, "download done", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Download done", Toast.LENGTH_SHORT).show();
     }
 }
